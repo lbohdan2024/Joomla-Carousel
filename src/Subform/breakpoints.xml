@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="breakpoint">
+		<field name="breakpoint"
+			   type="text"
+			   filter="integer"
+			   label="breakpoint"/>
+	</fieldset>
+	<fieldset name="breakpoint_params">
+		<field type="text"
+			   name="slidesPerView"
+			   label="slidesPerView"
+			   filter="integer"
+			   default="2"/>
+		<field type="text"
+			   name="spaceBetween"
+			   label="spaceBetween"
+			   filter="integer"
+			   default="20"/>
+		<field type="list"
+			   name="direction"
+			   label="direction"
+			   >
+			<option value="horizontal">horizontal</option>
+			<option value="vertical">vertical</option>
+		</field>
+
+	</fieldset>
+
+</form>

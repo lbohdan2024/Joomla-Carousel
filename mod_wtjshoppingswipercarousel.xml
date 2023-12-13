@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" client="site" method="upgrade">
+	<name>MOD_WTJSHOPPINGSWIPERCAROUSEL</name>
+	<author>Sergey Tolkachyov</author>
+	<creationDate>12/12/2023</creationDate>
+	<copyright>Copyright (C) 2021 Sergey Tolkachyov. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>info@web-tolk.ru</authorEmail>
+	<authorUrl>https://web-tolk.ru</authorUrl>
+	<version>1.0.0</version>
+	<description>MOD_WTJSHOPPINGSWIPERCAROUSEL_DESC</description>
+	<namespace path="src">Joomla\Module\Wtjshoppingswipercarousel</namespace>
+	<scriptfile>script.php</scriptfile>
+	<files>
+		<folder module="mod_wtjshoppingswipercarousel">src</folder>
+		<folder>services</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/mod_wtjshoppingswipercarousel.ini</language>
+		<language tag="en-GB">en-GB/mod_wtjshoppingswipercarousel.sys.ini</language>
+		<language tag="ru-RU">ru-RU/mod_wtjshoppingswipercarousel.ini</language>
+		<language tag="ru-RU">ru-RU/mod_wtjshoppingswipercarousel.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field addfieldprefix="Joomla\Module\Wtjshoppingswipercarousel\Site\Fields"
+					   type="moduleinfo"
+					   name="moduleinfo"/>
+				<field type="radio"
+					   name="carousel_type"
+					   class="btn-group"
+					   label="MOD_WTJSHOPPINGSWIPERCAROUSEL_CAROUSEL_TYPE"
+					   default="folder">
+					<option value="folder">MOD_WTJSHOPPINGSWIPERCAROUSEL_CAROUSEL_TYPE_FOLDER</option>
+					<option value="images">MOD_WTJSHOPPINGSWIPERCAROUSEL_CAROUSEL_TYPE_IMAGES</option>
+					<option value="joomshopping_products">MOD_WTJSHOPPINGSWIPERCAROUSEL_CAROUSEL_TYPE_JOOMSHOPPING_PRODUCTS</option>
+				</field>
+				<field name="folder"
+					   type="folderlist"
+					   label="MOD_WTJSHOPPINGSWIPERCAROUSEL_CAROUSEL_FOLDER"
+					   description="MOD_WTJSHOPPINGSWIPERCAROUSEL_CAROUSEL_FOLDER_DESC"
+					   directory="images"
+					   hide_none="true"
+					   hide_default="true"
+					   recursive="true"
+					   showon="carousel_type:folder"/>
+				<field type="text"
+					   label="MOD_WTJSHOPPINGSWIPERCAROUSEL_CAROUSEL_FOLDER_IMAGES_ALT"
+					   name="folder_images_alt"
+					   description="MOD_WTJSHOPPINGSWIPERCAROUSEL_CAROUSEL_FOLDER_IMAGES_ALT_DESC"
+					   showon="carousel_type:folder"/>
+				<field name="fields"
+					   label="MOD_WTJSHOPPINGSWIPERCAROUSEL_FIELDS_IMAGES"
+					   type="subform"
+					   layout="joomla.form.field.subform.repeatable"
+					   formsource="modules/mod_wtjshoppingswipercarousel/src/Subform/fields.xml"
+					   multiple="true"
+					   buttons="add,remove,move"
+					   showon="carousel_type:images"
+				/>
+				
+<!--				JoomShopping products-->
+				<field name="joomshopping_products_type"
+					   type="list"
+					   default="last_products"
+					   label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_TYPE"
+					   showon="carousel_type:joomshopping_products">
+					<option value="last_products">MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_TYPE_LAST_PRODUCTS</option>
+					<option value="products_by_ids">MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_TYPE_PRODUCTS_BY_IDS</option>
+					<option value="toprating_products">MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_TYPE_TOPRATING_PRODUCTS</option>
+					<option value="bestseller_products">MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_TYPE_BESTSELLER_PRODUCTS</option>
+					<option value="label_products">MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_TYPE_LABEL_PRODUCTS</option>
+					<option value="tophits_products">MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_TYPE_TOP_HITS_PRODUCTS</option>
+				</field>
+
+				<field
+						name="joomshopping_products_ids"
+						type="text"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_IDS"
+						hint="15, 219, 41, 784"
+						description="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_IDS_DESC"
+						showon="carousel_type:joomshopping_products[AND]joomshopping_products_type:products_by_ids"/>
+
+				<field
+						name="joomshopping_products_count_products"
+						type="text"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_COUNT_PRODUCTS"
+						default = "15"
+						showon="carousel_type:joomshopping_products[AND]joomshopping_products_type!:products_by_ids"/>
+
+				<field
+						name="catids"
+						type="jshoppingcategories"
+						size="15"
+						default=""
+						multiple="true"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_CATEGORIES"
+						addfieldprefix="Joomla\Module\Wtjshoppingswipercarousel\Site\Fields"
+						showon="carousel_type:joomshopping_products[AND]joomshopping_products_type!:products_by_ids"
+						layout="joomla.form.field.list-fancy-select"/>
+
+
+				<field
+						name="label_id"
+						type="jshoppinglabels"
+						size="5"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_PRODUCT_LABELS"
+						multiple="true"
+						layout="joomla.form.field.list-fancy-select"
+						addfieldprefix="Joomla\Module\Wtjshoppingswipercarousel\Site\Fields"
+						showon="carousel_type:joomshopping_products[AND]joomshopping_products_type!:products_by_ids"/>
+
+
+				<field
+						name="joomshopping_products_label_prod"
+						default="1"
+						type="radio"
+						class="btn-group"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_SHOW_LABEL"
+						filter="int"
+						showon="carousel_type:joomshopping_products">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+						name="joomshopping_products_show_image"
+						type="radio"
+						class="btn-group"
+						default="1"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_SHOW_PRODUCT_IMAGE"
+						filter="int"
+						showon="carousel_type:joomshopping_products">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+						name="joomshopping_products_short_desc"
+						type="radio"
+						class="btn-group"
+						default="0"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_SHOW_PRODUCT_SHORT_DESC"
+						filter="int"
+						showon="carousel_type:joomshopping_products">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+						name="joomshopping_products_product_price"
+						type="radio"
+						class="btn-group"
+						default="1"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_SHOW_PRODUCT_PRICE"
+						filter="int"
+						showon="carousel_type:joomshopping_products">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+						name="joomshopping_products_show_old_price"
+						type="radio"
+						class="btn-group"
+						default="1"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_SHOW_PRODUCT_OLD_PRICE"
+						filter="int"
+						showon="carousel_type:joomshopping_products">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+
+
+				<field
+						name="joomshopping_products_review_mark"
+						type="radio"
+						class="btn-group"
+						default="0"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_SHOW_PRODUCT_RATING"
+						filter="int"
+						showon="carousel_type:joomshopping_products">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+
+				<field
+						name="joomshopping_products_count_commentar"
+						type="radio"
+						class="btn-group"
+						default="0"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_SHOW_PRODUCT_COUNT_COMMENTAR"
+						filter="int"
+						showon="carousel_type:joomshopping_products">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+						name="joomshopping_products_show_buy_button"
+						type="radio"
+						class="btn-group"
+						default="0"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_SHOW_PRODUCT_BUY_BUTTON"
+						filter="int"
+						showon="carousel_type:joomshopping_products">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field type="text"
+					   name="joomshopping_products_buy_button_css_class"
+					   label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_BUY_BUTTON_CSS_CLASS CSS класс кнопки купить"
+					   showon="carousel_type:joomshopping_products[AND]joomshopping_products_show_buy_button:1"
+					   default="btn btn-primary"/>
+
+			</fieldset>
+			<fieldset name="swiper_params" label="Swiper params">
+<!--				<field type="list"-->
+<!--					   name="modules"-->
+<!--					   label="Swiper modules"-->
+<!--					   multiple="true"-->
+<!--					   disabled="disabled">-->
+<!--					<option value="Navigation">Navigation</option>-->
+<!--					<option value="Pagination">Pagination</option>-->
+<!--					<option value="Scrollbar">Scrollbar</option>-->
+<!--				</field>-->
+				<field type="text"
+					   name="speed"
+					   label="speed"
+					   default="400"
+					   filter="integer"/>
+				<field type="text"
+					   name="spaceBetween"
+					   label="spaceBetween"
+					   default="100"
+					   filter="integer"/>
+
+				<field type="radio"
+					   name="allowTouchMove"
+					   class="btn-group btn-group-yesno"
+					   description="If false, then the only way to switch the slide is use of external API functions like slidePrev or slideNext"
+					   label="allowTouchMove"
+					   default="1"
+					   filter="integer">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field type="radio"
+					   name="autoHeight"
+					   class="btn-group btn-group-yesno"
+					   description="Set to true and slider wrapper will adapt its height to the height of the currently active slide"
+					   label="autoHeight"
+					   default="0"
+					   filter="integer">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field type="radio"
+					   name="direction"
+					   class="btn-group btn-group-yesno"
+					   description="Can be horizontal or vertical (for vertical slider)."
+					   label="direction"
+					   default="horizontal">
+					<option value="horizontal">horizontal</option>
+					<option value="vertical">vertical</option>
+				</field>
+
+			</fieldset>
+			<fieldset name="navigation" label="Navigation">
+				<field type="radio"
+					   name="show_swiper_navigation"
+					   class="btn-group btn-group-yesno"
+					   label="Show navigation buttons?"
+					   default="1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field type="radio"
+					   name="allowSlideNext"
+					   class="btn-group btn-group-yesno"
+					   description="Set to false to disable swiping to next slide direction (to right or bottom)"
+					   label="allowSlideNext"
+					   default="1"
+					   filter="integer"
+					   showon="show_swiper_navigation:1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field type="radio"
+					   name="allowSlidePrev"
+					   class="btn-group btn-group-yesno"
+					   description="Set to false to disable swiping to previous slide direction (to left or top)"
+					   label="allowSlidePrev"
+					   filter="integer"
+					   default="1"
+					   showon="show_swiper_navigation:1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+			<fieldset name="pagination" label="Pagination">
+				<field type="radio"
+					   name="show_swiper_pagination"
+					   class="btn-group btn-group-yesno"
+					   label="Pagination"
+					   default="1"
+					   filter="integer">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field type="radio"
+					   name="dynamicBullets"
+					   class="btn-group btn-group-yesno"
+					   label="dynamicBullets"
+					   description="Good to enable if you use bullets pagination with a lot of slides. So it will keep only few bullets visible at the same time."
+					   default="1"
+					   filter="integer"
+					   showon="show_swiper_pagination:1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field type="number"
+					  name="dynamicMainBullets"
+					  label="dynamicMainBullets"
+					  description="The number of main bullets visible when dynamicBullets enabled."
+					  min="4"
+					  filter="integer"
+					  showon="dynamicBullets:1[AND]show_swiper_pagination:1"/>
+				<field type="radio"
+					   name="pagination_type"
+					   class="btn-group btn-group-yesno"
+					   label="Pagination type"
+					   description="String with type of pagination. Can be 'bullets', 'fraction', 'progressbar' or 'custom'"
+					   default="bullets"
+					   showon="show_swiper_pagination:1">
+					<option value="bullets">bullets</option>
+					<option value="fraction">fraction</option>
+					<option value="progressbar">progressbar</option>
+				</field>
+
+			</fieldset>
+			<fieldset name="scrollbar" label="Scrollbar">
+				<field type="radio"
+					   name="show_swiper_scrollbar"
+					   class="btn-group btn-group-yesno"
+					   label="Show scroll bar"
+					   default="1"
+					   filter="integer">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field type="radio"
+					   name="scrollbar_draggable"
+					   class="btn-group btn-group-yesno"
+					   label="Draggable?"
+					   default="0"
+					   filter="integer"
+					   showon="show_swiper_scrollbar:1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field type="number"
+					   name="dragSize"
+					   label="dragSize"
+					   description="Size of scrollbar draggable element in px. Default value is 'auto' if this field is empty."
+					   filter="integer"
+					   showon="show_swiper_scrollbar:1"/>
+			</fieldset>
+			<fieldset name="autoplay" label="Autoplay">
+				<field type="radio"
+					   name="enable_autoplay"
+					   class="btn-group btn-group-yesno"
+					   label="Enable autoplay?"
+					   filter="integer"
+					   default="0">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field type="number"
+					   name="delay"
+					   label="Delay"
+					   description="Delay between transitions (in ms). If this parameter is not specified, auto play will be disabled"
+					   filter="integer"
+					   showon="enable_autoplay:1"/>
+				<field type="radio"
+					   name="disableOnInteraction"
+					   class="btn-group btn-group-yesno"
+					   label="Disable on interaction?"
+					   description="Set to false and autoplay will not be disabled after user interactions (swipes), it will be restarted every time after interaction"
+					   filter="integer"
+					   default="0"
+					   showon="enable_autoplay:1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+			<fieldset name="breakpoints" label="Breakpoints">
+				<field type="radio"
+					   name="use_breakpoints"
+					   class="btn-group btn-group-yesno"
+					   label="Use breakpoints?"
+					   filter="integer"
+					   default="0">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field name="breakpoints"
+					   label="Breakpoints"
+					   type="subform"
+					   layout="joomla.form.field.subform.repeatable-table"
+					   formsource="modules/mod_wtjshoppingswipercarousel/src/Subform/breakpoints.xml"
+					   multiple="true"
+					   buttons="add,remove"
+					   showon="use_breakpoints:1"
+					   groupByFieldset="true"
+				/>
+
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					validate="moduleLayout"
+					class="form-select"
+				/>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					rows="3"
+				/>
+
+				<field
+					name="cache"
+					type="list"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+
+				<field
+					name="cache_time"
+					type="number"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					default="900"
+					filter="integer"
+				/>
+
+				<field
+					name="cachemode"
+					type="hidden"
+					default="static"
+					>
+					<option value="static"></option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+	<updateservers>
+		<server type="extension" priority="1" name="WT JShopping Swiper.js carousel updates">https://web-tolk.ru/component/swjprojects/jupdate?element=mod_wtjshoppingswipercarousel</server>
+	</updateservers>
+	<changelogurl>https://web-tolk.ru/jchangelog?element=mod_wtjshoppingswipercarousel</changelogurl>
+</extension>

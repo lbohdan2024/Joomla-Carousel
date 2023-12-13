@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <field name="image"
+		   type="media"
+		   label="MOD_WTJSHOPPINGSWIPERCAROUSEL_FIELDS_IMAGE"/>
+	<field name="image_alt"
+		   type="text"
+		   label="MOD_WTJSHOPPINGSWIPERCAROUSEL_FIELDS_IMAGE_ALT"/>
+</form>
