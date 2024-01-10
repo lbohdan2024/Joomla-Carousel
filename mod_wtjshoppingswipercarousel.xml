@@ -211,9 +211,25 @@
 				</field>
 				<field type="text"
 					   name="joomshopping_products_buy_button_css_class"
-					   label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_BUY_BUTTON_CSS_CLASS CSS класс кнопки купить"
+					   label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_BUY_BUTTON_CSS_CLASS"
 					   showon="carousel_type:joomshopping_products[AND]joomshopping_products_show_buy_button:1"
 					   default="btn btn-primary"/>
+				<field
+						name="joomshopping_products_show_product_link_button"
+						type="radio"
+						class="btn-group"
+						default="0"
+						label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_SHOW_PRODUCT_LINK_BUTTON"
+						filter="int"
+						showon="carousel_type:joomshopping_products">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field type="text"
+					   name="joomshopping_products_show_product_link_button_css_class"
+					   label="MOD_WTJSHOPPINGSWIPERCAROUSEL_JOOMSHOPPING_PRODUCTS_PRODUCT_LINK_CSS_CLASS"
+					   showon="carousel_type:joomshopping_products[AND]joomshopping_products_show_product_link_button:1"
+					   default="btn btn-secondary"/>
 
 			</fieldset>
 			<fieldset name="swiper_params" label="Swiper params">
