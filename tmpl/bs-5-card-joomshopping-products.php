@@ -4,7 +4,7 @@
  * @copyright   Copyright (C) 2022-2023 Sergey Tolkachyov. All rights reserved.
  * @author      Sergey Tolkachyov - https://web-tolk.ru
  * @link 		https://web-tolk.ru
- * @version 	1.0.0
+ * @version 	1.1.0
  * @license     GNU General Public License version 3 or later
  */
 use Joomla\CMS\Factory;
@@ -84,15 +84,38 @@ use Joomla\CMS\Language\Text;
 								<?php endif; ?>
 							<?php endif; ?>
 						</div>
+
+                    <?php if($params->get('joomshopping_products_show_buy_button', 0) || $params->get('joomshopping_products_show_product_link_button', 0)):?>
+                        <div class="card-footer d-flex bg-white border-0 justify-content-center">
 						<?php if ($params->get('joomshopping_products_show_buy_button', 0) && !empty($product->buy_link)) : ?>
-							<div class="card-footer d-flex bg-white border-0 justify-content-center">
-								<a href="<?php echo $product->buy_link;?>" class="<?php echo $params->get('joomshopping_products_buy_button_css_class','btn btn-primary');?>"><?php echo Text::_('JSHOP_BUY');?></a>
-							</div>
+
+								<?php
+								$link_attribs = [
+									'class' => $params->get('joomshopping_products_buy_button_css_class','btn btn-primary'),
+									//'id' => 'your-id-for-link',
+									//'data-attr' => 'any-data-attr'
+								];
+
+								echo HTMLHelper::link($product->buy_link,Text::_('JSHOP_BUY'),$link_attribs);
+								?>
+
 						<?php endif; ?>
 
+                        <?php if ($params->get('joomshopping_products_show_product_link_button', 0) && !empty($product->product_link)) : ?>
+                                <?php
+                                    $link_attribs = [
+                                            'class' => $params->get('joomshopping_products_show_product_link_button_css_class','btn btn-secondary'),
+                                            //'id' => 'your-id-for-link',
+                                            //'data-attr' => 'any-data-attr'
+                                    ];
+
+                                    echo HTMLHelper::link($product->product_link,Text::_('JSHOP_DETAIL'),$link_attribs);
+                                ?>
+
+						<?php endif; ?>
+                        </div>
+						<?php endif; ?>
 				</article>
-
-
 			</div>
 		<?php endforeach;?>
 	</div>
