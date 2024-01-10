@@ -4,7 +4,7 @@
  * @copyright   Copyright (C) 2022-2023 Sergey Tolkachyov. All rights reserved.
  * @author      Sergey Tolkachyov - https://web-tolk.ru
  * @link 		https://web-tolk.ru
- * @version 	1.0.0
+ * @version 	1.1.0
  * @license     GNU General Public License version 3 or later
  */
 use Joomla\CMS\Factory;
@@ -116,8 +116,6 @@ use Joomla\CMS\Language\Text;
                         </div>
 						<?php endif; ?>
 				</article>
-
-
 			</div>
 		<?php endforeach;?>
 	</div>

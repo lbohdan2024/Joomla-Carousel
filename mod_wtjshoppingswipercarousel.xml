@@ -2,12 +2,12 @@
 <extension type="module" client="site" method="upgrade">
 	<name>MOD_WTJSHOPPINGSWIPERCAROUSEL</name>
 	<author>Sergey Tolkachyov</author>
-	<creationDate>12/12/2023</creationDate>
+	<creationDate>January 2024</creationDate>
 	<copyright>Copyright (C) 2021 Sergey Tolkachyov. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>info@web-tolk.ru</authorEmail>
 	<authorUrl>https://web-tolk.ru</authorUrl>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<description>MOD_WTJSHOPPINGSWIPERCAROUSEL_DESC</description>
 	<namespace path="src">Joomla\Module\Wtjshoppingswipercarousel</namespace>
 	<scriptfile>script.php</scriptfile>
