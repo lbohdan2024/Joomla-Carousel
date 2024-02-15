@@ -3,8 +3,8 @@
  * @package     WT JShopping Swiper carousel
  * @copyright   Copyright (C) 2022-2023 Sergey Tolkachyov. All rights reserved.
  * @author      Sergey Tolkachyov - https://web-tolk.ru
- * @link 		https://web-tolk.ru
- * @version 	1.1.0
+ * @link        https://web-tolk.ru
+ * @version     1.1.0
  * @license     GNU General Public License version 3 or later
  */
 
@@ -57,6 +57,11 @@ class WtjshoppingswipercarouselHelper
 	 */
 	public function getJshopConfig(): object
 	{
+		if (!class_exists('JSFactory') && file_exists(JPATH_SITE . '/components/com_jshopping/bootstrap.php'))
+		{
+			require_once(JPATH_SITE . '/components/com_jshopping/bootstrap.php');
+		}
+
 		$jshopConfig = \JSFactory::getConfig();
 
 		return $jshopConfig;
@@ -130,7 +135,7 @@ class WtjshoppingswipercarouselHelper
 				$breakpoints[$breakpoint->breakpoint] = [
 					'slidesPerView' => $breakpoint->slidesPerView,
 					'spaceBetween'  => $breakpoint->spaceBetween,
-					'direction'  =>  (!empty($breakpoint->direction) ? $breakpoint->direction : 'horizontal'),
+					'direction'     => (!empty($breakpoint->direction) ? $breakpoint->direction : 'horizontal'),
 				];
 			}
 
@@ -232,6 +237,7 @@ class WtjshoppingswipercarouselHelper
 
 	/**
 	 * Return JoomShopping product list
+	 *
 	 * @param $params
 	 * @param $app
 	 *
@@ -246,12 +252,13 @@ class WtjshoppingswipercarouselHelper
 		$noimage     = $jshopConfig->image_product_live_path . "/noimage.gif";
 		$filters     = [];
 		$count       = $params->get('joomshopping_products_count_products', 4);
-		$list = [];
+		$list        = [];
 		if ($params->get('joomshopping_products_type') == 'last_products')
 		{
 			$productlist = \JSFactory::getModel('last', 'Site\\Productlist');
-			$categories = $params->get('catids', []);
-			if(is_array($categories) && count($categories) > 0){
+			$categories  = $params->get('catids', []);
+			if (is_array($categories) && count($categories) > 0)
+			{
 				$categories = array_map('intval', $categories);
 			}
 			$filters['categorys'] = $categories;
@@ -277,10 +284,12 @@ class WtjshoppingswipercarouselHelper
 				if (strpos($product_ids, ',') !== false)
 				{
 					$product_ids = explode(',', $product_ids);
-					$product_ids = array_map('trim',$product_ids);
+					$product_ids = array_map('trim', $product_ids);
 
-				} else {
-					$product_ids = (array)trim($product_ids);
+				}
+				else
+				{
+					$product_ids = (array) trim($product_ids);
 				}
 
 				if (is_array($product_ids) && count($product_ids) > 0)
@@ -304,9 +313,10 @@ class WtjshoppingswipercarouselHelper
 
 		if ($params->get('joomshopping_products_type') == 'toprating_products')
 		{
-			$product = \JSFactory::getModel('toprating', 'Site\\Productlist');
+			$product    = \JSFactory::getModel('toprating', 'Site\\Productlist');
 			$categories = $params->get('catids', []);
-			if(is_array($categories) && count($categories) > 0){
+			if (is_array($categories) && count($categories) > 0)
+			{
 				$categories = array_map('intval', $categories);
 			}
 			$filters['categorys'] = $categories;
@@ -321,9 +331,10 @@ class WtjshoppingswipercarouselHelper
 		}
 		if ($params->get('joomshopping_products_type') == 'tophits_products')
 		{
-			$product = \JSFactory::getModel('tophits', 'Site\\Productlist');
+			$product    = \JSFactory::getModel('tophits', 'Site\\Productlist');
 			$categories = $params->get('catids', []);
-			if(is_array($categories) && count($categories) > 0){
+			if (is_array($categories) && count($categories) > 0)
+			{
 				$categories = array_map('intval', $categories);
 			}
 			$filters['categorys'] = $categories;
@@ -340,7 +351,8 @@ class WtjshoppingswipercarouselHelper
 		if ($params->get('joomshopping_products_type') == 'bestseller_products')
 		{
 			$categories = $params->get('catids', []);
-			if(is_array($categories) && count($categories) > 0){
+			if (is_array($categories) && count($categories) > 0)
+			{
 				$categories = array_map('intval', $categories);
 			}
 
@@ -357,7 +369,7 @@ class WtjshoppingswipercarouselHelper
 		if ($params->get('joomshopping_products_type') == 'label_products')
 		{
 
-			$product  = \JSFactory::getModel('label', 'Site\\Productlist');
+			$product   = \JSFactory::getModel('label', 'Site\\Productlist');
 			$label_ids = (array) $params->get('label_id');
 
 			if ($label_ids)
@@ -366,7 +378,8 @@ class WtjshoppingswipercarouselHelper
 			}
 
 			$categories = $params->get('catids', []);
-			if(is_array($categories) && count($categories) > 0){
+			if (is_array($categories) && count($categories) > 0)
+			{
 				$categories = array_map('intval', $categories);
 			}
 
